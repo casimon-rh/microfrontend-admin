@@ -1,0 +1,37 @@
+{
+  "name": "wallgrow-frontend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "ssh://APKA33DDHXLEWYMFJW5K@git-codecommit.us-west-2.amazonaws.com/v1/repos/wallgrow-frontend",
+  "author": "Carlos Eduardo Simon Zepeda <simon@industriafuturo.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "eslint-plugin-babel": "^5.3.0",
+    "express": "^4.17.1",
+    "fast-safe-stringify": "^2.0.6",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1",
+    "pug": "^2.0.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.5.4",
+    "@babel/node": "^7.5.0",
+    "@babel/preset-env": "^7.5.4",
+    "eslint": "^6.0.1",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-config-standard": "^13.0.1",
+    "eslint-plugin-import": "^2.18.0",
+    "eslint-plugin-node": "^9.1.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "prettier": "^1.18.2",
+    "standard": "^13.0.2"
+  }
+}
