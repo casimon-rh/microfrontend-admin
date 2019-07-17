@@ -1,0 +1,12 @@
+version: '3'
+services:
+  frontadmin:
+    build:
+      context: ../
+      dockerfile: ./docker/prod.dockerfile
+    ports:
+      - "80:80"
+      - "3000:3000"
+    environment:
+      - ROOTS=/test=/usr/src/app/shared
+      - ENDPOINTS=/app=http://127.0.0.1:3000/app
