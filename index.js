@@ -1,7 +1,9 @@
+import path from 'path'
 import express from 'express'
 import logger from 'morgan'
 import bodyParser from 'body-parser'
 import cors from 'cors'
+import sass from 'node-sass-middleware'
 
 import routes from './routes'
 
@@ -14,6 +16,8 @@ app.use(bodyParser.json())
 app.set('views', './views')
 app.set('view engine', 'pug')
 
+app.use(sass.middleware({ src: path.join(__dirname, 'public', 'styles') }))
+app.listen(express.static(path.join(__dirname, 'public')))
 routes(app)
 
 app.all('*', (req, res) => {

@@ -1,11 +1,10 @@
-- var ishtml = `${html}`
 doctype=html
 html
 	head
 		title Wallgrow
+		link(rel="stylesheet", href="styles/index.css")
 		link(rel="stylesheet", href=`${css}`)
 	body
 		#root
-			if ishtml
-				obj(data=`${html}`)
+			#{html}
 		script(src=`${js}`, type="text/javascript")
