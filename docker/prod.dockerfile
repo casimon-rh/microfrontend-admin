@@ -4,7 +4,7 @@ apk add --no-cache nodejs nodejs-npm nginx yarn tree bash && \
 adduser -D -g 'www' www && npm i -g nodemon
 
 WORKDIR /usr/src/app
-COPY --chown=www:www package.json yarn.lock index.js ./
+COPY --chown=www:www package.json yarn.lock ./
 RUN yarn --emoji true && chown -R www:www /var/lib/nginx/html
 COPY --chown=www:www . .
 

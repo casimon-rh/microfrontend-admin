@@ -15,9 +15,10 @@ app.use(logger('dev'))
 app.use(bodyParser.json())
 app.set('views', './views')
 app.set('view engine', 'pug')
+app.set('port', port)
 
-app.use(sass.middleware({ src: path.join(__dirname, 'public', 'styles') }))
-app.listen(express.static(path.join(__dirname, 'public')))
+app.use(sass({ src: path.join(__dirname, 'public', 'styles') }))
+app.use(express.static(path.join(__dirname, 'public')))
 routes(app)
 
 app.all('*', (req, res) => {
