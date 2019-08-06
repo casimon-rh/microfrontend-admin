@@ -1,0 +1,16 @@
+version: '3'
+services:
+  admin:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    networks: 
+      red:
+        aliases:
+          - admin
+    environment:
+      - ENDPOINTS=/app/test=http://test/
+networks: 
+  red:
+    driver: bridge
