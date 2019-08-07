@@ -16,9 +16,14 @@ app.use(bodyParser.json())
 app.set('views', './views')
 app.set('view engine', 'pug')
 app.set('port', port)
-
-app.use(sass({ src: path.join(__dirname, 'public', 'styles') }))
-app.use(express.static(path.join(__dirname, 'public')))
+console.log(path.join(__dirname, 'public', 'styles'))
+app.use(sass({
+  src: __dirname,
+  debug: true,
+  indentedSyntax: true,
+  outputStyle: 'compressed'
+}))
+app.use('/public', express.static(path.join(__dirname, 'public')))
 routes(app)
 
 app.all('*', (req, res) => {

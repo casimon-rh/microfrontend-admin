@@ -9,4 +9,4 @@ services:
       - "3000:3000"
     environment:
       - ROOTS=/test=/usr/src/app/shared
-      - ENDPOINTS=/app=http://127.0.0.1:3000/app
+      - ENDPOINTS=/app=http://127.0.0.1:3000/app;/public=http://127.0.0.1:3000/public
