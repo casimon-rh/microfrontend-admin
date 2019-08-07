@@ -16,4 +16,5 @@ html(lang="en")
         if ishtml
           div!= `${html}`
       .footer
-    script(src=`${js}`, type="text/javascript")
+    each s in js
+      script(src=`${s}`, type="text/javascript")

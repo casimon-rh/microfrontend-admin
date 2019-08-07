@@ -2,7 +2,22 @@ import axios from 'axios'
 import handleError from './error'
 import cheerio from 'cheerio'
 
-const loadManifest = name => axios.get(`${name}/manifest.json`)
+const loadManifest = name => {
+  const endpoint = `${name}/manifest.json`
+  console.log({ endpoint })
+  return new Promise((resolve, reject) => {
+    axios.get(
+      endpoint
+    ).then(result => {
+      resolve({ result, name })
+    }).catch(
+      _ex_ => {
+        console.log('consulta manifest 📨')
+        console.log({ endpoint })
+        reject(_ex_)
+      })
+  })
+}
 const handleManifest = (endpoint, { data: manifest }) => {
   const obj = {}
   let main = {}
@@ -15,17 +30,17 @@ const handleManifest = (endpoint, { data: manifest }) => {
     switch (elem) {
       case 'main.css':
         obj['iscss'] = true
-        obj['css'] = endpoint + main[elem]
+        obj['css'] = endpoint + '/' + main[elem]
         break
       case 'main.js':
-        obj['js'] = endpoint + main[elem]
+        obj['js'] = endpoint + '/' + main[elem]
         break
     }
   })
   return new Promise((resolve, reject) => {
     if (main['index.html']) {
       axios
-        .get(endpoint + main['index.html'])
+        .get(endpoint + '/' + main['index.html'])
         .then(result => {
           const $ = cheerio.load(result.data)
           const mainhtml = $('#import-me').html()
@@ -46,14 +61,30 @@ const handleManifest = (endpoint, { data: manifest }) => {
   })
 }
 export const get = arr => {
-  const name = arr.reduce((prev, current) => `${prev}/${current}`, '')
-  const endpoint = '/' + arr[0] + '/'
+  const name = arr.reduce(
+    (prev, current) => `${prev}/${current}`,
+    ''
+  )
+  if (!name && name !== 'undefined') {
+    return
+  }
   return new Promise((resolve, reject) => {
-    loadManifest(name)
-      .then(manifest => resolve(handleManifest(endpoint, manifest)))
-      .catch(ex => {
-        handleError(ex)
-        reject(ex)
-      })
+    Promise.all([
+      loadManifest(name),
+      loadManifest('/navbar')
+    ]).then(
+      manifests => {
+        Promise.all(
+          manifests.map(
+            m => handleManifest(m.name, m.result)
+          )
+        ).then(
+          result => resolve(result)
+        ).catch(_ex => reject(_ex))
+      }
+    ).catch(ex => {
+      handleError(ex)
+      reject(ex)
+    })
   })
 }
