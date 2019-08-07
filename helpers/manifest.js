@@ -14,6 +14,7 @@ const handleManifest = (endpoint, { data: manifest }) => {
   Object.keys(main).forEach(elem => {
     switch (elem) {
       case 'main.css':
+        obj['iscss'] = true
         obj['css'] = endpoint + main[elem]
         break
       case 'main.js':
@@ -27,7 +28,8 @@ const handleManifest = (endpoint, { data: manifest }) => {
         .get(endpoint + main['index.html'])
         .then(result => {
           const $ = cheerio.load(result.data)
-          obj['html'] = $('#import-me').html()
+          const mainhtml = $('#import-me').html()
+          obj['html'] = mainhtml
           obj['ishtml'] = true
           resolve(obj)
         })
