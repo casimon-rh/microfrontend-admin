@@ -2,22 +2,20 @@ import axios from 'axios'
 import handleError from './error'
 import cheerio from 'cheerio'
 
-const loadManifest = name => {
-  const endpoint = `${name}/manifest.json`
-  console.log({ endpoint })
-  return new Promise((resolve, reject) => {
+const loadManifest = name =>
+  new Promise((resolve, reject) => {
     axios.get(
-      endpoint
+      `${name}/manifest.json`
     ).then(result => {
       resolve({ result, name })
     }).catch(
       _ex_ => {
         console.log('consulta manifest 📨')
-        console.log({ endpoint })
+        console.log(`${name}/manifest.json`)
         reject(_ex_)
       })
   })
-}
+
 const handleManifest = (endpoint, { data: manifest }) => {
   const obj = {}
   let main = {}
@@ -62,8 +60,7 @@ const handleManifest = (endpoint, { data: manifest }) => {
 }
 export const get = arr => {
   const name = arr.reduce(
-    (prev, current) => `${prev}/${current}`,
-    ''
+    (prev, current) => `${prev}/${current}`, ''
   )
   if (!name && name !== 'undefined') {
     return
@@ -77,10 +74,9 @@ export const get = arr => {
         Promise.all(
           manifests.map(
             m => handleManifest(m.name, m.result)
-          )
-        ).then(
-          result => resolve(result)
-        ).catch(_ex => reject(_ex))
+          ))
+          .then(result => resolve(result))
+          .catch(_ex => reject(_ex))
       }
     ).catch(ex => {
       handleError(ex)

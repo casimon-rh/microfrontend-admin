@@ -16,7 +16,6 @@ app.use(bodyParser.json())
 app.set('views', './views')
 app.set('view engine', 'pug')
 app.set('port', port)
-console.log(path.join(__dirname, 'public', 'styles'))
 app.use(sass({
   src: __dirname,
   debug: true,

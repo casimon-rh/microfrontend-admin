@@ -4,34 +4,28 @@ import handleError from '../helpers/error'
 const handle = app => {
   app.get('/app/:module/:page?/:sub?', (req, res) => {
     const directions = Object.keys(req.params)
-      .map(k => req.params[k])
-      .filter(j => j && j !== 'undefined')
+      .map(key => req.params[key])
+      .filter(key => key && key !== 'undefined')
     get([...directions])
       .then(tempdata => {
         const data = tempdata.reduce(
           (acc, cur) => {
-            let lista = []
-            const temp = { ...cur }
-            if (!acc.js) {
-              acc.js = []
-            } else {
-              lista = [...acc.js]
-            }
-            lista.push(temp.js)
-            const text = temp.js
-            console.log({ text, type: typeof (text), fun: text.includes })
-            const b = text.includes('navbar')
-            console.log({ b })
+            const lista = [...acc.js || []]
+            lista.push(cur.js)
             return {
               js: [...lista],
-              html: b ? acc.html : cur.html,
-              ishtml: b ? acc.ishtml : cur.ishtml
+              html: cur.js.includes('navbar') ? acc.html : cur.html,
+              ishtml: cur.js.includes('navbar') ? acc.ishtml : cur.ishtml
             }
           }, {})
-        console.log({ data })
         res.render('index', data)
       })
-      .catch(ex => handleError(ex))
+      .catch(ex => {
+        handleError(ex)
+        res.status(500).send({
+          message: 'error interno'
+        })
+      })
   })
 }
 export default handle
