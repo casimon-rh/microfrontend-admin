@@ -28,17 +28,17 @@ const handleManifest = (endpoint, { data: manifest }) => {
     switch (elem) {
       case 'main.css':
         obj['iscss'] = true
-        obj['css'] = endpoint + '/' + main[elem]
+        obj['css'] = main[elem]
         break
       case 'main.js':
-        obj['js'] = endpoint + '/' + main[elem]
+        obj['js'] = main[elem]
         break
     }
   })
   return new Promise((resolve, reject) => {
     if (main['index.html']) {
       axios
-        .get(endpoint + '/' + main['index.html'])
+        .get(main['index.html'])
         .then(result => {
           const $ = cheerio.load(result.data)
           const mainhtml = $('#import-me').html()
