@@ -1,0 +1,18 @@
+version: '3'
+services:
+  frontadmin:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    ports:
+      - "80:80"
+      - "3000:3000"
+    environment:
+      - ROOTS=/test=/usr/src/app/shared
+      - ALIAS=/navbar=/usr/src/app/shared/alias
+      - ENDPOINTS=/app=http://127.0.0.1:3000/app;/public=http://127.0.0.1:3000/public
+      - DEFAULT=/test
+    volumes:
+      - type: bind
+        source: ../shared
+        target: /usr/src/app/shared
